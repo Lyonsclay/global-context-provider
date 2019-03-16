@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 export function myStore(props) {
   const [user, setUser] = useState('')
-  const [campaign, updateCampaign] = useState('new campaign')
+  const [project, updateProject] = useState('new project')
   const login = user => {
     setUser(user)
     sessionStorage.setItem('user',{ user })
@@ -11,15 +11,15 @@ export function myStore(props) {
     setUser('')
     sessionStorage.setItem('user',{ user: {} })
   }
-  const changeCampaignName = name => {
-    updateCampaign(name)
+  const changeProjectName = name => {
+    updateProject(name)
   }
 
   return {
     user,
     setUser,
-    campaign,
-    updateCampaign: changeCampaignName,
+    project,
+    updateProject: changeProjectName,
     login,
     logout,
     emojis: '🐱 🐶 🐭 🐹 🐰'

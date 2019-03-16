@@ -11,7 +11,7 @@ const App = () => {
         <header className="App-header">
           <div>
             <Intro />
-            <CampaignName />
+            <ProjectName />
           </div>
           <img src={logo} className="App-logo" alt="logo" />
           <Login />
@@ -25,11 +25,11 @@ const App = () => {
 
 const Intro = () => {
   const context = useContext(StuffContext)
-  const { campaign, user } = context
+  const { project, user } = context
 
   return (
     <div>
-      <h4>{campaign}</h4>
+      <h4>{project}</h4>
       <p>Welcome {user || 'new user'} !!</p>
       <Nested />
     </div>
@@ -99,24 +99,24 @@ function UserName({ term, toggle }) {
   )
 }
 
-const CampaignName = () => {
-  const { user, campaign, updateCampaign } = useContext(StuffContext)
+const ProjectName = () => {
+  const { user, project, updateProject } = useContext(StuffContext)
   const input = React.createRef()
   const handleSubmit = e => {
     e.preventDefault()
-    updateCampaign(input.current.value)
+    updateProject(input.current.value)
     input.current.value = ''
   }
   const onChange = () => {
-    updateCampaign(input.current.value)
+    updateProject(input.current.value)
   }
   if (!user) return null
   return (
     <div>
-      <h4>{campaign}</h4>
+      <h4>{project}</h4>
       <form onSubmit={handleSubmit}>
         <label>
-          Change Campaign Name :
+          Change Project Name :
           <input type="text" name="name" ref={input} onChange={onChange} />
         </label>
         <input type="submit" value="Submit" />
