@@ -31,8 +31,14 @@ const Intro = () => {
     <div>
       <h4>{campaign}</h4>
       <p>Welcome {user || 'new user'} !!</p>
+      <Nested />
     </div>
   )
+}
+
+const Nested = () => {
+  const { emojis } = useContext(StuffContext)
+  return <span>{emojis}</span>
 }
 
 function Login() {

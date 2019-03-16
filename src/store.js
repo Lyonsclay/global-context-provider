@@ -22,6 +22,7 @@ export function myStore(props) {
     updateCampaign: changeCampaignName,
     login,
     logout,
+    emojis: '🐱 🐶 🐭 🐹 🐰'
   }
 
 }
