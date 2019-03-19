@@ -1,8 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
+
+const poemReducer = (poem, action) => {
+  const {type, payload} = action
+  const {lines} = poem
+  switch (type) {
+  case 'add':
+    return {...poem, lines: lines.concat(payload)}
+  case 'updateName':
+    return {...poem, name: payload}
+  default:
+    return poem
+  }
+}
 
 export function myStore(props) {
   const [user, setUser] = useState('')
   const [project, updateProject] = useState('new project')
+  const [poem, poemDispatch] = useReducer(poemReducer, { poem: {name: '', lines: []}})
   const login = user => {
     setUser(user)
     sessionStorage.setItem('user',{ user })
@@ -20,6 +34,8 @@ export function myStore(props) {
     setUser,
     project,
     updateProject: changeProjectName,
+    poem,
+    poemDispatch,
     login,
     logout,
     emojis: '🐱 🐶 🐭 🐹 🐰'
