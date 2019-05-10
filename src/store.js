@@ -16,7 +16,7 @@ const poemReducer = (poem, action) => {
 export function myStore(props) {
   const [user, setUser] = useState('')
   const [project, updateProject] = useState('new project')
-  const [poem, poemDispatch] = useReducer(poemReducer, { poem: {name: '', lines: []}})
+  const [poem, poemDispatch] = useReducer(poemReducer,  {name: 'dumb default poem name', lines: []})
   const login = user => {
     setUser(user)
     sessionStorage.setItem('user',{ user })

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { StuffContext, StuffProvider } from './store'
 import logo from './logo.svg'
 import './App.css'
@@ -12,7 +12,7 @@ const App = () => {
           <div>
             <Intro />
             <ProjectName />
-            <Poem/>
+            <Poem />
           </div>
           <img src={logo} className="App-logo" alt="logo" />
           <Login />
@@ -27,13 +27,17 @@ const App = () => {
 const Intro = () => {
   const context = useContext(StuffContext)
   const { project, user, poem } = context
+  const [showNested, setShowNested] = useState(false)
+  console.log({ poem })
 
   return (
     <div>
       <h4>{project}</h4>
       <p>Welcome {user || 'new user'} !!</p>
-      <p>Best Poem Ever -- {poem && poem.name || 'has not been written.'}</p>
+      <p>Best Poem Ever -- {(poem && poem.name) || 'has not been written.'}</p>
       <Nested />
+      <button onClick={() => setShowNested(!showNested)}>Reveal All</button>
+      {showNested && <NestedPoemClass showNested={showNested} />}{' '}
     </div>
   )
 }
@@ -42,33 +46,52 @@ const Nested = () => {
   const { emojis } = useContext(StuffContext)
   return <span>{emojis}</span>
 }
+const NestedPoemName = () => {
+  const { poem } = useContext(StuffContext)
 
-function  Poem() {
-  const { poem, poemDispatch } = useContext(StuffContext)
-    const input = React.createRef()
-    const handleSubmitName = e => {
-      e.preventDefault()
-      poemDispatch({type: 'updateName', payload: input.current.value})
-      input.current.value = ''
-    }
-    const onChange = () => {
-      // updateProject(input.current.value)
-    }
+  return <span>Is this the most current data? ----> {poem.name}</span>
+}
+class NestedPoemClass extends React.Component {
+  render() {
     return (
-      <div>
-        <h4>{poem && poem.name}</h4>
-        <form onSubmit={handleSubmitName}>
-          <label>
-            Change Poem Name :
-            <input type="text" name="name" ref={input} onChange={onChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
+      <StuffContext.Consumer>
+        {context => (
+          <div>
+            {this.props.showNested && (
+              <span>
+                Is this the most current data? ----> {context.poem.name}
+              </span>
+            )}
+          </div>
+        )}
+      </StuffContext.Consumer>
     )
+  }
+}
 
-
-
+function Poem() {
+  const { poem, poemDispatch } = useContext(StuffContext)
+  const input = React.createRef()
+  const handleSubmitName = e => {
+    e.preventDefault()
+    poemDispatch({ type: 'updateName', payload: input.current.value })
+    input.current.value = ''
+  }
+  const onChange = () => {
+    // updateProject(input.current.value)
+  }
+  return (
+    <div>
+      <h4>{poem && poem.name}</h4>
+      <form onSubmit={handleSubmitName}>
+        <label>
+          Change Poem Name :
+          <input type="text" name="name" ref={input} onChange={onChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  )
 }
 
 function Login() {
